@@ -53,6 +53,7 @@ import ErrorLog from '@/components/ErrorLog'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
+import { Message } from 'element-ui'
 
 export default {
   components: {
@@ -75,8 +76,9 @@ export default {
       this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
-      await this.$store.dispatch('user/logout')
+      await this.$store.dispatch('user/logout', this.$store.getters.token)
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+      Message.success('注销成功')
     }
   }
 }

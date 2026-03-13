@@ -3,10 +3,10 @@
 import Layout from '@/layout'
 
 const tableRouter = {
-  path: '/table',
+  path: '/tablex',
   component: Layout,
-  redirect: '/table/complex-table',
-  name: 'Table',
+  redirect: '/tablex/complex-table',
+  name: 'Tablex',
   meta: {
     title: 'Table',
     icon: 'table'
