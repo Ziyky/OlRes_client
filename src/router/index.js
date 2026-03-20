@@ -263,6 +263,22 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/config',
+    component: Layout,
+    redirect: '/config/index',
+    name: 'config',
+    meta: {
+      title: '系统设置',
+      icon: 'edit'
+    },
+    children: [{
+      path: 'index',
+      component: () => import('@/views/ol_res/config/index.vue'),
+      name: 'configIndex',
+      meta: { title: '系统配置', noCache: true }
+    }]
+  },
   // --------------------------------------------------------------------
   /** when your routing map is too long, you can split it into small modules **/
   // componentsRouter,
