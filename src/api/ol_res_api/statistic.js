@@ -35,3 +35,12 @@ export function getTodayOrder() {
     }
   )
 }
+
+export function getUserTrend() {
+  return request(
+    {
+      url: '/statistic/weekUsers',
+      method: 'post'
+    }
+  )
+}

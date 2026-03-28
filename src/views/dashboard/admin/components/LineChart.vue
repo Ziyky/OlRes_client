@@ -64,7 +64,7 @@ export default {
     setOptions({ actualData } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: ['周一', '周二', '周三', '周四', '周五', '周六','周日'],
+          data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
           boundaryGap: false,
           axisTick: {
             show: false
@@ -90,11 +90,11 @@ export default {
           }
         },
         legend: {
-          data: ['最近一周']
+          data: ['用户总数趋势']
         },
         series: [
           {
-            name: '最近一周',
+            name: '用户总数趋势',
             smooth: true,
             type: 'line',
             itemStyle: {

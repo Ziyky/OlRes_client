@@ -8,9 +8,9 @@
     </el-row>
 
     <el-row :gutter="8">
-<!--      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">-->
-        <transaction-table />
-<!--      </el-col>-->
+      <!--      <el-col :xs="{span: 24}" :sm="{span: 24}" :md="{span: 24}" :lg="{span: 12}" :xl="{span: 12}" style="padding-right:8px;margin-bottom:30px;">-->
+      <transaction-table />
+      <!--      </el-col>-->
     </el-row>
   </div>
 </template>
@@ -19,19 +19,11 @@
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
 import TransactionTable from './components/TransactionTable'
+import { getUserTrend } from '@/api/ol_res_api/statistic'
 
 const lineChartData = {
   reguser: {
-    actualData: [100, 120, 161, 134, 105, 160, 165]
-  },
-  dishsells: {
-    actualData: [180, 160, 151, 106, 145, 150, 130]
-  },
-  todaysells: {
-    actualData: [120, 90, 100, 138, 142, 130, 130]
-  },
-  todayorder: {
-    actualData: [120, 82, 91, 154, 162, 140, 130]
+    actualData: [0, 0, 0, 0, 0, 0, 0]
   }
 }
 
@@ -44,8 +36,12 @@ export default {
   },
   data() {
     return {
-      lineChartData: lineChartData.newVisitis
+      lineChartData: lineChartData.reguser
     }
+  },
+  async mounted() {
+    const res = await getUserTrend()
+    lineChartData.reguser.actualData = JSON.parse(res.data)
   },
   methods: {
     handleSetLineChartData(type) {

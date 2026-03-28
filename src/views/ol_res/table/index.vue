@@ -102,7 +102,7 @@
             <el-button type="text" icon="el-icon-plus" size="small">加菜</el-button>
           </div>
 
-          <el-table :data="currentDetailTable.orders || []" style="width: 100%" size="small">
+          <el-table :data="currentDetailTable.orders || []" style="width: 100%" size="small" :row-class-name="tableRowClassName">
             <el-table-column prop="name" label="菜品名称" />
             <el-table-column prop="quantity" label="数量" width="70" />
             <el-table-column prop="price" label="单价" width="80">
@@ -223,7 +223,7 @@
 import { getTableById, tableList } from '@/api/ol_res_api/table'
 import { cancelOrder, createOrder, getOrderById, getOrderItemByOrderId, payOrder } from '@/api/ol_res_api/order'
 import { getDishById, getDishList } from '@/api/ol_res_api/dish'
-import { getNicknameById, getWxInfo } from '@/api/user'
+import { getNicknameById } from '@/api/user'
 
 export default {
   name: 'TableIndex',
@@ -340,7 +340,8 @@ export default {
                   orderItems.push({
                     quantity: item.quantity || 0,
                     name: dishData.dishName || '未知菜品',
-                    price: dishData.price || 0
+                    price: dishData.price || 0,
+                    isGift: item.isGift || 0
                   })
                 } catch (dishErr) {
                   console.error(`获取菜品${item.dishId}失败：`, dishErr)
@@ -348,7 +349,8 @@ export default {
                   orderItems.push({
                     quantity: item.quantity || 0,
                     name: '菜品信息加载失败',
-                    price: 0
+                    price: 0,
+                    isGift: item.isGift || 0
                   })
                 }
               }
@@ -372,6 +374,12 @@ export default {
         console.error('桌台数据初始化失败：', err)
         this.$message.error('桌台数据加载失败，请重试')
       }
+    },
+    tableRowClassName({ row }) {
+      if (row.isGift === 1) {
+        return 'gift-row'
+      }
+      return ''
     },
     viewTableDetail(table) {
       this.currentDetailTable = table
@@ -734,5 +742,42 @@ export default {
 
 .detail-footer .el-button {
   margin-left: 10px;
+}
+</style>
+<style>
+/* ========== 赠品行水印效果 ========== */
+.el-table .gift-row {
+  position: relative;
+  background-color: rgba(255, 235, 210, 0.3) !important; /* 淡橙色底 */
+}
+
+.el-table .gift-row td {
+  position: relative;
+}
+
+/* 水印伪元素 - 覆盖整行 */
+.el-table .gift-row td:first-child::after {
+  content: '赠品';
+  position: absolute;
+  top: 50%;
+  /* 让水印从第一个 td 延伸到整行宽度 */
+  left: 0;
+  width: 400%;  /* 足够覆盖所有列 */
+  transform: translateY(-50%) rotate(-15deg);
+  font-size: 28px;
+  font-weight: bold;
+  color: rgba(255, 120, 50, 0.15);  /* 半透明橙色 */
+  letter-spacing: 20px;
+  text-align: center;
+  pointer-events: none;  /* 不影响鼠标操作 */
+  z-index: 1;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+/* 确保行内文字在水印之上可读 */
+.el-table .gift-row td .cell {
+  position: relative;
+  z-index: 2;
 }
 </style>
